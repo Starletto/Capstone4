@@ -29,7 +29,7 @@ def render_vehicle_dashboard(result):
             value= f"{total_vehicles} Unit"
         )
 
-        #
+        
         st.markdown("#### Jumlah Kendaraan per Kelas")
 
         cols = st.columns(len(counts_df))

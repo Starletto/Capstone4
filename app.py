@@ -11,6 +11,7 @@ st.set_page_config(
     layout="wide",
 )
 
+#Model YOLO dimuat dari file best_model.pt
 model = load_yolo_model("best_model.pt")
 
 st.sidebar.title("🎛️ Panel Kontrol")
@@ -30,11 +31,13 @@ confidence_threshold = st.sidebar.slider(
 st.title("🚗 Vehicle Detection & Counting Dashboard")
 st.write("Unggah gambar jalan raya untuk melihat hasil deteksi objek beserta statistik jumlah kendaraannya.")
 
+#Membuat uploader untuk upload gambar kendaraan
 uploaded_file = st.file_uploader(
     "Pilih gambar kendaraan...", 
     type=["jpg", "jpeg", "png"]
 )
 
+# Menampilkan hasil deteksi kendaraan jika file diupload dan model berhasil dimuat
 if uploaded_file is not None and model is not None:
     image = Image.open(uploaded_file)
 
@@ -46,11 +49,15 @@ if uploaded_file is not None and model is not None:
 
     with col2:
         st.subheader("Hasil Deteksi Kendaraan")
+
+        # Menjalankan deteksi kendaraan menggunakan model YOLO
         result, annotated_image = process_detection(model, image, confidence_threshold)
         st.image(annotated_image)
 
+    #Menampilkan hasil deteksi
     render_vehicle_dashboard(result)
 
+#Jika model gagal dimuat, tampilkan pesan error
 else:
     if uploaded_file is None:
         st.info("Silakan unggah gambar untuk memulai deteksi kendaraan.")
